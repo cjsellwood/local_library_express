@@ -1,11 +1,23 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel="stylesheet" href="/stylesheets/style.css" />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
-</html>
+<%- include("partials/top.ejs") %>
+<title><%= title %></title>
+<%- include("partials/sidebar.ejs") %>
+<!--Content-->
+<h1><%= title %></h1>
+<p>
+  Welcome to <em>LocalLibrary</em>, a very basic Express website developed as a
+  tutorial example on the Mozilla Developer Network.
+</p>
+<% if (error) { %>
+<p>Error getting dynamic content.</p>
+<% } else { %>
+<p>The library has the following record counts:</p>
+<ul>
+  <li><strong>Books:</strong><%= data.bookCount %></li>
+  <li><strong>Copies:</strong><%= data.bookInstanceCount %></li>
+  <li>
+    <strong>Copies Available:</strong><%= data.bookInstanceAvailableCount %>
+  </li>
+  <li><strong>Authors:</strong><%= data.authorCount %></li>
+  <li><strong>Genres:</strong><%= data.genreCount %></li>
+</ul>
+<% } %> <%- include("partials/bottom.ejs") %>
