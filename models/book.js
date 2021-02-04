@@ -28,7 +28,7 @@ const bookSchema = mongoose.Schema({
 });
 
 // Virtual for book's URL
-bookSchema.virtual("URL").get(function () {
+bookSchema.virtual("url").get(function () {
   return "/catalog/book/" + this._id;
 });
 

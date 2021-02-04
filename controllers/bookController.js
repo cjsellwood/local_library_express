@@ -9,34 +9,52 @@ const bookInstance = require("../models/bookInstance");
 // Home page render
 exports.index = (req, res) => {
   // Get counts all at the same time
-  async.parallel({
-    bookCount: (callback) => {
-      Book.countDocuments({}, callback);
+  async.parallel(
+    {
+      bookCount: (callback) => {
+        Book.countDocuments({}, callback);
+      },
+      bookInstanceCount: (callback) => {
+        bookInstance.countDocuments({}, callback);
+      },
+      bookInstanceAvailableCount: (callback) => {
+        bookInstance.countDocuments({ status: "Available" }, callback);
+      },
+      authorCount: (callback) => {
+        Author.countDocuments({}, callback);
+      },
+      genreCount: (callback) => {
+        Genre.countDocuments({}, callback);
+      },
+      // Run function after all counts completed
     },
-    bookInstanceCount: (callback) => {
-      bookInstance.countDocuments({}, callback);
-    },
-    bookInstanceAvailableCount: (callback) => {
-      bookInstance.countDocuments({ status: "Available" }, callback);
-    },
-    authorCount: (callback) => {
-      Author.countDocuments({}, callback);
-    },
-    genreCount: (callback) => {
-      Genre.countDocuments({}, callback);
-    },
-  // Run function after all counts completed
-  }, (err, results) => {
-    res.render("index", {title: "Local Library Home", error: err, data: results})
-  }
+    (err, results) => {
+      res.render("index", {
+        title: "Local Library Home",
+        error: err,
+        data: results,
+      });
+    }
   );
 
   // res.send("NOT IMPLEMENTED: Site Home Page");
 };
 
 // Display list of all books.
-exports.bookList = (req, res) => {
-  res.send("NOT IMPLEMENTED: Book list");
+exports.bookList = (req, res, next) => {
+  Book.find({}, "title author")
+    .populate("author")
+    .exec((err, listBooks) => {
+      if (err) {
+        return next(err);
+      }
+      listBooks.sort((a, b) => {
+        let textA = a.title.toUpperCase();
+        let textB = b.title.toUpperCase();
+        return textA < textB ? -1 : textA > textB ? 1 : 0;
+      });
+      res.render("bookList", { title: "Book List", bookList: listBooks });
+    });
 };
 
 // Display detail page for a specific book.

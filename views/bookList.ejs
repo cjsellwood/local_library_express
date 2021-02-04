@@ -1,0 +1,14 @@
+<%- include("partials/top.ejs") %>
+<title><%= title %></title>
+<%- include("partials/sidebar.ejs") %>
+<!--Content-->
+<h1><%= title %></h1>
+<ul>
+  <% for (book of bookList) { %>
+  <li>
+    <a href="<%= book.url %>"><%= book.title %></a>
+    <span>(<%= book.author.name%>)</span>
+  </li>
+  <%} %>
+</ul>
+<%- include("partials/bottom.ejs") %>
