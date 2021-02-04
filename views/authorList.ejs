@@ -1,0 +1,16 @@
+<%- include("partials/top.ejs") %>
+<title><%= title %></title>
+<%- include("partials/sidebar.ejs") %>
+<!--Content-->
+<h1><%= title %></h1>
+<ul>
+  <% for (author of authorList) {%>
+  <li>
+    <a href="<%= author.url %>"><%= author.name %></a>
+    <span>(<%= author.lifespan %>)</span>
+  </li>
+  <%} %> <% if (!authorList || authorList.length === 0) { %>
+  <li>There are no authors</li>
+  <% } %>
+</ul>
+<%- include("partials/bottom.ejs") %>

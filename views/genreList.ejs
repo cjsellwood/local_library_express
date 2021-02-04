@@ -1,0 +1,13 @@
+<%- include("partials/top.ejs") %>
+<title><%= title %></title>
+<%- include("partials/sidebar.ejs") %>
+<!--Content-->
+<h1><%= title %></h1>
+<ul>
+  <% for (genre of genreList) { %>
+  <li>
+    <a href="<%= genre.url %>"><%= genre.name %></a>
+  </li>
+  <%} %>
+</ul>
+<%- include("partials/bottom.ejs") %>

@@ -17,7 +17,7 @@
     <% }else {%>
     <span class="text-warning"><%= bookInstance.status %></span>
     <% } %> <% if (bookInstance.status !== "Available") { %>
-    <span>(Due: <%= bookInstance.dueBack %>)</span>
+    <span>(Due: <%= bookInstance.dueBackFormatted %>)</span>
     <% } %>
   </li>
   <%} %>

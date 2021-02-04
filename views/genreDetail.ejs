@@ -1,0 +1,20 @@
+<%- include("partials/top.ejs") %>
+<title><%= title %></title>
+<%- include("partials/sidebar.ejs") %>
+<!--Content-->
+<h1>Genre: <%= genre.name %></h1>
+<div style="margin-left: 20px; margin-top: 20px">
+  <h4>Books</h4>
+  <dl>
+    <% for (book of genreBooks) {%>
+    <dt>
+      <a href="<%= book.url %>"><%= book.title %></a>
+    </dt>
+    <dd><%= book.summary %></dd>
+    <%} %>
+     <% if (!genreBooks) {%>
+    <p>This genre has no books</p>
+    <%} %>
+  </dl>
+</div>
+<%- include("partials/bottom.ejs") %>
