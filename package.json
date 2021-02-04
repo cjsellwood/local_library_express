@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "DEBUG=local-library-express:* nodemon ./bin/www"
+    "start": "DEBUG=local_library_express:* nodemon ./bin/www"
   },
   "dependencies": {
     "async": "^3.2.0",
@@ -14,5 +14,8 @@
     "http-errors": "~1.6.3",
     "mongoose": "^5.11.14",
     "morgan": "~1.9.1"
+  },
+  "engines": {
+    "node": "14.8.0"
   }
 }

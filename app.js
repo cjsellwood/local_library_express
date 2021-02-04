@@ -10,7 +10,10 @@ var usersRouter = require("./routes/users");
 
 var app = express();
 
-mongoose.connect("mongodb://localhost:27017/localLibrary", {
+const url =
+  "mongodb+srv://localLibrary:localLibrary22@cluster0.sruzj.mongodb.net/local_library?retryWrites=true&w=majority";
+
+mongoose.connect(url, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
