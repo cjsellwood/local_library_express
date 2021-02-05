@@ -1,0 +1,58 @@
+<%- include("partials/top.ejs") %>
+<title><%= title %></title>
+<%- include("partials/sidebar.ejs") %>
+<!--Content-->
+<h1><%= title %></h1>
+<form method="POST" action="">
+  <div class="form-group">
+    <label for="title">Title:</label>
+    <input id="title" class="form-control" placeholder="Name of book"
+    type="text" name="title" required="true" value="<%= undefined ===
+    locals.book ? "" : book.title %>"/>
+  </div>
+  <div class="form-group">
+    <label for="author">Author: </label>
+    <select id="author" class="form-control" type="select" placeholder="Select
+    author" name="author" required="true">
+    <% authors.sort(function(a, b) {let textA = a.familyName.toUpperCase(); let textB = b.familyName.toUpperCase(); return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;});%>
+    <% for (author of authors) {%>
+      <% if (locals.book) {%>
+        <option value="<%= author._id %>" selected="<%= author._id.toString() === book.author._id.toString() ? 'selected' : false %>"><%= author.name %></option>
+      <% } else {%>
+        <option value="<%= author._id %>"><%= author.name %></option>
+        <% } %>
+    <%} %>
+  </select>
+  </div>
+  <div class="form-group">
+    <label for="summary">Summary:</label>
+    <textarea id="summary" class="form-control" type="textarea"
+     placeholder="Summary" name="summary" required="true" 
+     ><%= undefined === locals.book ? "" : book.summary %></textarea>
+  </div>
+  <div class="form-group">
+    <label for="isbn">ISBN:</label>
+    <input id="isbn" class="form-control" type="text" placeholder="ISBN13"
+    name="isbn" value="<%= undefined === locals.book ? "" : book.isbn %>" required="true"/>
+  </div>
+  <div class="form-group">
+    <label>Genre:</label>
+    <div>
+      <% for (genre of genres) {%>
+      <div style="display: inline; padding-right: 10px">
+        <input class="checkbox-input" type="checkbox" name="genre" id="<%= genre._id %>"
+        value="<%= genre._id %>" <%= genre.checked ? checked : "" %>/>
+        <label for="<%= genre._id %>"><%= genre.name %></label>
+      </div>
+      <% } %>
+    </div>
+  </div>
+  <button class="btn btn-primary" type="submit">Submit</button>
+</form>
+<% if (locals.errors) { %>
+<ul>
+  <% for (error of locals.errors) { %>
+  <li><%= error.msg %></li>
+  <% } %>
+</ul>
+<% } %> <%- include("partials/bottom.ejs") %>

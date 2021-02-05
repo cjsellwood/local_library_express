@@ -1,0 +1,51 @@
+<%- include("partials/top.ejs") %>
+<title><%= title %></title>
+<%- include("partials/sidebar.ejs") %>
+<!--Content-->
+<h1><%= title %></h1>
+<form method="POST" action="">
+  <div class="form-group">
+    <label for="book">Book: </label>
+    <select id="book" class="form-control" type="select" placeholder="Select book"
+     name="book" required="true">
+    <% bookList.sort(function(a, b) {let textA = a.title.toUpperCase(); let textB = b.title.toUpperCase(); return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;});%>
+    <% for (book of bookList) {%>
+      <% if (locals.bookInstance) {%>
+        <option value="<%= bookInstance._id %>" selected="<%= bookInstance.book._id.toString() === book._id.toString() ? 'selected' : false %>"><%= book.title %></option>
+      <% } else {%>
+        <option value="<%= book._id %>"><%= book.title %></option>
+        <% } %>
+    <%} %>
+  </select>
+  <div class="form-group">
+    <label for="imprint">Imprint:</label>
+    <input id="imprint" class="form-control" placeholder="Publisher and date information"
+    type="text" name="imprint"
+    value="<%= undefined === locals.bookInstance ? "" : bookInstance.imprint %>"/>
+  </div>
+  <div class="form-group">
+    <label for="dueBack">Date when book available</label>
+    <input id="dueBack" class="form-control" placeholder="Publisher and date information"
+    type="date" name="dueBack" 
+    value="<%= undefined === locals.bookInstance ? "" : bookInstance.dueBack %>"/>
+  </div>
+
+  <div class="form-group">
+    <label for="status">Status:</label>
+    <select id="status" class="form-control" placeholder="Select status" 
+    type="select" name="status" required="true">
+    <option value="Maintenance">Maintenance</option>
+    <option value="Available">Available</option>
+    <option value="Loaned">Loaned</option>
+    <option value="Reserved">Reserved</option>
+  </select>
+  </div>
+  <button class="btn btn-primary" type="submit">Submit</button>
+</form>
+<% if (locals.errors) { %>
+<ul>
+  <% for (error of locals.errors) { %>
+  <li><%= error.msg %></li>
+  <% } %>
+</ul>
+<% } %> <%- include("partials/bottom.ejs") %>
