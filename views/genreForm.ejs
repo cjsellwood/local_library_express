@@ -1,0 +1,24 @@
+<%- include("partials/top.ejs") %>
+<title><%= title %></title>
+<%- include("partials/sidebar.ejs") %>
+<h1><%= title %></h1>
+<form method="POST" action="">
+  <div class="form-group">
+    <label for="name">Genre</label>
+    <input id="name" class="form-control" type="text" placeholder="Fantasy,
+    Poetry etc." name="name" value="<%= undefined === locals.genre ? "" :
+    locals.genre.name %>" required="true"/>
+    <button class="btn btn-primary" style="margin-top: 20px" type="submit">
+      Submit
+    </button>
+  </div>
+  <% if (locals.errors) { %>
+  <ul>
+    <% for (error of locals.errors) { %>
+    <li><%= error.msg %></li>
+    <% } %>
+  </ul>
+  <% } %>
+</form>
+
+<%- include("partials/bottom.ejs") %>
