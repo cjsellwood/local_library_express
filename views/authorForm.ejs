@@ -5,12 +5,12 @@
 <form method="POST" action="">
   <div class="form-group">
     <label for="firstName">First Name:</label>
-    <input id="firstName" class="form-control" type="text" placeholder="First
-    Name" name="firstName" value="<%= undefined === locals.author ? "" :
+    <input id="firstName" class="form-control" placeholder="First Name"
+    type="text" name="firstName" value="<%= undefined === locals.author ? "" :
     locals.author.firstName %>" required="true" />
     <label for="familyName">Family Name:</label>
-    <input id="familyName" class="form-control" type="text" placeholder="Family
-    Name" name="familyName" value="<%= undefined === locals.author ? "" :
+    <input id="familyName" class="form-control" placeholder="Family Name"
+    type="text" name="familyName" value="<%= undefined === locals.author ? "" :
     locals.author.familyName %>" required="true" />
   </div>
   <div class="form-group">
