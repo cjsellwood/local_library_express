@@ -11,7 +11,7 @@
     <% bookList.sort(function(a, b) {let textA = a.title.toUpperCase(); let textB = b.title.toUpperCase(); return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;});%>
     <% for (book of bookList) {%>
       <% if (locals.bookInstance) {%>
-        <option value="<%= bookInstance._id %>" selected="<%= bookInstance.book._id.toString() === book._id.toString() ? 'selected' : false %>"><%= book.title %></option>
+        <option value="<%= book._id %>" <%= bookInstance.book._id.toString() === book._id.toString() ? 'selected' : false %>><%= book.title %></option>
       <% } else {%>
         <option value="<%= book._id %>"><%= book.title %></option>
         <% } %>
@@ -27,17 +27,17 @@
     <label for="dueBack">Date when book available</label>
     <input id="dueBack" class="form-control" placeholder="Publisher and date information"
     type="date" name="dueBack" 
-    value="<%= undefined === locals.bookInstance ? "" : bookInstance.dueBack %>"/>
+    value="<%= undefined === locals.bookInstance ? "" : bookInstance.dueBackForm %>"/>
   </div>
 
   <div class="form-group">
     <label for="status">Status:</label>
     <select id="status" class="form-control" placeholder="Select status" 
     type="select" name="status" required="true">
-    <option value="Maintenance">Maintenance</option>
-    <option value="Available">Available</option>
-    <option value="Loaned">Loaned</option>
-    <option value="Reserved">Reserved</option>
+    <option value="Maintenance" <%= undefined === locals.bookInstance || bookInstance.status !== "Maintenance" ? false : "selected" %>>Maintenance</option>
+    <option value="Available" <%= undefined === locals.bookInstance || bookInstance.status !== "Available" ? false : "selected" %>>Available</option>
+    <option value="Loaned" <%= undefined === locals.bookInstance || bookInstance.status !== "Loaned" ? false : "selected" %>>Loaned</option>
+    <option value="Reserved" <%= undefined === locals.bookInstance || bookInstance.status !== "Reserved" ? false : "selected" %>>Reserved</option>
   </select>
   </div>
   <button class="btn btn-primary" type="submit">Submit</button>

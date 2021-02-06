@@ -151,11 +151,58 @@ exports.genreDeletePost = (req, res) => {
 };
 
 // Display Genre update form on GET.
-exports.genreUpdateGet = (req, res) => {
-  res.send("NOT IMPLEMENTED: Genre update GET");
+exports.genreUpdateGet = (req, res, next) => {
+  Genre.findById(req.params.id).exec((err, genre) => {
+    if (err) {
+      return next(err);
+    }
+    res.render("genreForm", { title: "Update Genre", genre });
+  });
 };
 
 // Handle Genre update on POST.
-exports.genreUpdatePost = (req, res) => {
-  res.send("NOT IMPLEMENTED: Genre update POST");
-};
+exports.genreUpdatePost = [
+  // Validate and sanitize the name field
+  body("name", "Genre name required").trim().isLength({ min: 1 }).escape(),
+
+  // Process request after validation and sanitization
+  (req, res, next) => {
+    // Extract the validation errors from a request
+    const errors = validationResult(req);
+
+    // Create a new genre object with escaped and trimmed data
+    const genre = new Genre({
+      name: req.body.name,
+      _id: req.params.id,
+    });
+
+    if (!errors.isEmpty()) {
+      // There are errors. Render the form again with sanitized values/error messages.
+      res.render("genreForm", {
+        title: "Create Genre",
+        genre,
+        errors: errors.array(),
+      });
+      return;
+    } else {
+      // Data from form is valid
+      // Check if Genre with same name already exists
+      Genre.findOne({ name: req.body.name }).exec((err, foundGenre) => {
+        if (err) {
+          return next(err);
+        }
+        if (foundGenre) {
+          //Genre exists, redirect to its detail page
+          res.redirect(foundGenre.url);
+        } else {
+          Genre.findByIdAndUpdate(req.params.id, genre, {}, (err, theGenre) => {
+            if (err) {
+              return next(err);
+            }
+            res.redirect(theGenre.url);
+          });
+        }
+      });
+    }
+  },
+];

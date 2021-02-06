@@ -6,6 +6,7 @@
 <ul>
   <% for (bookInstance of bookInstanceList) {%>
   <li>
+    <%= console.log(bookInstance) %>
     <a href="<%= bookInstance.url%>"
       ><%= bookInstance.book.title %> : <%= bookInstance.imprint %></a
     >

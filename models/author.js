@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const {DateTime} = require("luxon")
+const { DateTime } = require("luxon");
 
 // Create schema for author model
 const authorSchema = mongoose.Schema({
@@ -43,9 +43,23 @@ authorSchema.virtual("lifespan").get(function () {
     ? DateTime.fromJSDate(this.dateOfBirth).toLocaleString(DateTime.DATE_MED)
     : "";
   const death = this.dateOfDeath
-  ? DateTime.fromJSDate(this.dateOfDeath).toLocaleString(DateTime.DATE_MED)
-  : "";
-  return `${birth} - ${death}`
+    ? DateTime.fromJSDate(this.dateOfDeath).toLocaleString(DateTime.DATE_MED)
+    : "";
+  return `${birth} - ${death}`;
+});
+
+// Virtual for form entry date format
+authorSchema.virtual("dateOfBirthForm").get(function () {
+  return this.dateOfBirth
+    ? DateTime.fromJSDate(this.dateOfBirth).toISODate()
+    : "";
+});
+
+// Virtual for form entry date format
+authorSchema.virtual("dateOfDeathForm").get(function () {
+  return this.dateOfDeath
+    ? DateTime.fromJSDate(this.dateOfDeath).toISODate()
+    : "";
 });
 
 module.exports = mongoose.model("Author", authorSchema);

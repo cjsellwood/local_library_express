@@ -173,11 +173,80 @@ exports.authorDeletePost = (req, res) => {
 };
 
 // Display Author update form on GET.
-exports.authorUpdateGet = (req, res) => {
-  res.send("NOT IMPLEMENTED: Author update GET");
+exports.authorUpdateGet = (req, res, next) => {
+  async.parallel(
+    {
+      author: (callback) => {
+        Author.findById(req.params.id).exec(callback);
+      },
+    },
+    (err, results) => {
+      if (err) return next(err);
+      res.render("authorForm", {
+        title: "Update Author",
+        author: results.author,
+      });
+    }
+  );
 };
 
 // Handle Author update on POST.
-exports.authorUpdatePost = (req, res) => {
-  res.send("NOT IMPLEMENTED: Author update POST");
-};
+exports.authorUpdatePost = [
+  // Validate and sanitize fields
+  body("firstName")
+    .trim()
+    .isLength({ min: 1 })
+    .escape()
+    .withMessage("First name must be specified.")
+    .isAlphanumeric()
+    .withMessage("First name has non-alphanumeric characters"),
+  body("familyName")
+    .trim()
+    .isLength({ min: 1 })
+    .escape()
+    .withMessage("Family name must be specified")
+    .isAlphanumeric()
+    .withMessage("Family name has non-alphanumeric characters."),
+  body("dateOfBirth", "Invalid date of birth")
+    .optional({ checkFalsy: true })
+    .isISO8601()
+    .toDate(),
+  body("dateOfDeath", "Invalid date of death")
+    .optional({ checkFalsy: true })
+    .isISO8601()
+    .toDate(),
+
+  // Process request after validation and sanitization
+  (req, res, next) => {
+    // Extract the validation errors from a request
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      // There are errors. Render from again with sanitized values/errors messages
+      res.render("authorForm", {
+        title: "Create Author",
+        author: req.body,
+        errors: errors.array(),
+      });
+      return;
+    } else {
+      // Data from form is valid
+      //Create an Author object with escaped and trimmed data
+      const author = new Author({
+        firstName: req.body.firstName,
+        familyName: req.body.familyName,
+        dateOfBirth: req.body.dateOfBirth,
+        dateOfDeath: req.body.dateOfDeath,
+        _id: req.params.id, //This is required, or a new ID will be assigned!
+      });
+
+      Author.findByIdAndUpdate(req.params.id, author, {}, (err, theAuthor) => {
+        if (err) {
+          return next(err);
+        }
+        // Successful redirect to new author record
+        res.redirect(theAuthor.url);
+      });
+    }
+  },
+];

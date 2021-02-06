@@ -17,7 +17,7 @@
     <% authors.sort(function(a, b) {let textA = a.familyName.toUpperCase(); let textB = b.familyName.toUpperCase(); return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;});%>
     <% for (author of authors) {%>
       <% if (locals.book) {%>
-        <option value="<%= author._id %>" selected="<%= author._id.toString() === book.author._id.toString() ? 'selected' : false %>"><%= author.name %></option>
+        <option value="<%= author._id %>" <%= author._id.toString() === book.author._id.toString() || author._id.toString() === book.author ? 'selected' : false %>><%= author.name %></option>
       <% } else {%>
         <option value="<%= author._id %>"><%= author.name %></option>
         <% } %>
@@ -41,7 +41,7 @@
       <% for (genre of genres) {%>
       <div style="display: inline; padding-right: 10px">
         <input class="checkbox-input" type="checkbox" name="genre" id="<%= genre._id %>"
-        value="<%= genre._id %>" <%= genre.checked ? checked : "" %>/>
+        value="<%= genre._id %>" <%= genre.checked ? "checked" : "" %>/>
         <label for="<%= genre._id %>"><%= genre.name %></label>
       </div>
       <% } %>

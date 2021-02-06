@@ -34,4 +34,9 @@ bookInstanceSchema.virtual("dueBackFormatted").get(function () {
   return DateTime.fromJSDate(this.dueBack).toLocaleString(DateTime.DATE_MED);
 });
 
+// Virtual for due date formatted for form value
+bookInstanceSchema.virtual("dueBackForm").get(function () {
+  return this.dueBack ? DateTime.fromJSDate(this.dueBack).toISODate() : "";
+});
+
 module.exports = mongoose.model("BookInstance", bookInstanceSchema);
