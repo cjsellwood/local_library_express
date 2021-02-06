@@ -1,0 +1,21 @@
+<%- include("partials/top.ejs") %>
+<title><%= title %></title>
+<%- include("partials/sidebar.ejs") %>
+<!--Content-->
+<h1><%= title %>: <%= bookInstance._id %></h1>
+<p><strong><%= bookInstance.book.title %></strong> - <%= bookInstance.imprint %></p>
+<p>Do you really want to delete this Book Instance?</p>
+<form method="POST" action="">
+  <div class="form-group">
+    <input
+      id="bookInstanceId"
+      class="form-control"
+      type="hidden"
+      name="bookInstanceId"
+      required="true"
+      value="<%= bookInstance._id %>"
+    />
+  </div>
+  <button class="btn btn-primary" type="submit">Delete</button>
+</form>
+<%- include("partials/bottom.ejs") %>

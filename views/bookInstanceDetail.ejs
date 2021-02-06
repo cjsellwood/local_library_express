@@ -20,4 +20,8 @@
 </p>
 <% if (bookInstance.status !== "Available") {%>
 <p><strong>Due back: </strong> <%= bookInstance.dueBackFormatted %></p>
-<%} %> <%- include("partials/bottom.ejs") %>
+<%} %>
+<p>
+  <a href="<%= bookInstance.url %>/delete">Delete Book Instance</a>
+</p>
+<%- include("partials/bottom.ejs") %>
