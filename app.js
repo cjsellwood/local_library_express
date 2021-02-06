@@ -15,10 +15,11 @@ const helmet = require("helmet");
 var app = express();
 
 // Database connection
-const url =
+const devUrl =
   "mongodb+srv://localLibrary:localLibrary22@cluster0.sruzj.mongodb.net/local_library?retryWrites=true&w=majority";
+const mongoDb = process.env.MONGODB_URI || devUrl;
 
-mongoose.connect(url, {
+mongoose.connect(mongoDb, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
